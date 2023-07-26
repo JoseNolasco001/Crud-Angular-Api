@@ -1,0 +1,90 @@
+<nav class="navbar bg-primary" data-bs-theme="dark">
+  <div class="container-fluid mx-5">
+    <a class="navbar-brand">Tesis de Mexico</a>
+    <form class="d-flex" role="search">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="container mt-5 text-center">
+  <div class="row">
+    <!-- Formulario -->
+    <div class="col-sm-3 bg-form">
+        <!-- form -> Cajas de texto -->
+        <form class="my-5" id="initForm" [formGroup]="form" (ngSubmit)="saveCustomer()">
+          <div class="row mx-5">
+              <div class="mb-3">
+                <label for="CustomerId" class="form-label">Id del Empleado</label>
+                <input formControlName="CustomerId" type="number" class="form-control" id="CustomerId" aria-describedby="CustomerId">
+              </div>
+          </div>
+          <div class="row mx-5">
+              <div class="mb-3">
+                <label for="NameCustomer" class="form-label">Nombre del empleado</label>
+                <input formControlName="NameCustomer" type="text" class="form-control" id="NameCustomer" aria-describedby="NameCustomer">
+              </div>
+          </div>
+          <div class="row mx-5">
+              <div class="mb-3">
+                <label for="CustomerAge" class="form-label">Edad del empleado</label>
+                <input formControlName="CustomerAge" type="number" class="form-control" id="CustomerAge" aria-describedby="CustomerAge">
+              </div>
+          </div>
+          <div class="row mx-5">
+              <div class="mb-3">
+                <label for="CustomertEmail" class="form-label">Email del empleado</label>
+                <input formControlName="CustomertEmail" type="email" class="form-control" id="CustomertEmail" aria-describedby="CustomertEmail">
+              </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="row mx-4">
+            <div class="col" >
+              <button class="btn btn-primary btn-sm" (click)="buscarCustomer() " type="button">Buscar</button>
+            </div>
+            <div class="col" >
+              <button class="btn btn-primary btn-sm" [disabled]="form.invalid" type="submit">{{!dblClic?'Agregar':'Guardar'}}</button>
+            </div>
+            <div class="col" >
+              <button class="btn btn-primary btn-sm" (click)="newCustomer()"  type="button">Nuevo</button>
+            </div>
+          </div>
+
+        </form>
+    </div>
+
+  <!-- Tabla -->
+    <div class="col-sm-9 card" >
+      <!-- <div  class="bg-tabla"> -->
+        <h4 class="mt-4 ">Lista de empleados</h4>
+        <div class="table px-4">
+          <div class="row header cj-btm-row py-3 cj-btm">
+            <div class="col-sm-1">Id</div>
+            <div class="col-sm-4">Nombre</div>
+            <div class="col-sm-2">Edad</div>
+            <div class="col-sm-3">Email</div>
+            <div class="col-sm-2">Action</div>
+          </div>
+
+          <div *ngIf="Customers.length>0; else vacio" class="row t-body p-0 cj-btm">
+            <div class="row p-0 m-0 cj-btm-row" (dblclick)="doubleClick(customer)"  *ngFor="let customer of Customers, let i = index" [ngClass]="selected==customer.id?'selected':''">
+              <div class="col-sm-1 cj-btm ">{{customer.id}}</div>
+              <div class="col-sm-4 cj-btm">{{customer.nombre}}</div>
+              <div class="col-sm-2 cj-btm">{{customer.edad}}</div>
+              <div class="col-sm-3 cj-btm">{{customer.email}}</div>
+              <div class="col-sm-2 cj-btm">
+                <button class="btn btn-danger btn-sm" (click)="deleteCustomer(customer.id)"><i class="bi bi-trash3-fill"></i>Borrar</button>
+              </div>
+            </div>
+          </div>
+          <ng-template #vacio>
+            <div class="row py-2 m-0 cj-btm-row vacio">
+              no hay ningun registro
+            </div>
+          </ng-template>
+        </div>
+    </div>
+  </div>
+</div>
